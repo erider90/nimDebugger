@@ -10,7 +10,7 @@ proc main(): void =
     var pi: winINC.PROCESS_INFORMATION
 
     ##  Create a new process
-    var check = createProcessA(nil, "path to binary", nil, nil, false, 0, nil, nil, si, pi)
+    var check = createProcessA(nil, "C:/Users/super/Downloads/REtools/nimTools/a.exe", nil, nil, false, 0, nil, nil, si, pi)
     ##  Get the first thread HANDLE
     var hThread: HANDLE = OpenThread(THREAD_ALL_ACCESS, FALSE, GetThreadId(pi.hThread))
     ##  Get the thread context
@@ -20,13 +20,13 @@ proc main(): void =
     if GetThreadContext(hThread, addr(ctx)) == false :
         printf("Failed to get thread context\n")
     else: 
-        printf("EAX: 0x%X\n", ctx.Rax)
-        printf("EBX: 0x%X\n", ctx.Rbx)
-        printf("ECX: 0x%X\n", ctx.Rcx)
-        printf("EDX: 0x%X\n", ctx.Rdx)
-        printf("ESP: 0x%X\n", ctx.Rsp)
-        printf("EBP: 0x%X\n", ctx.Rbp)
-        printf("EIP: 0x%X\n", ctx.Rip)
+        printf("RAX: 0x%X\n", ctx.Rax)
+        printf("RBX: 0x%X\n", ctx.Rbx)
+        printf("RCX: 0x%X\n", ctx.Rcx)
+        printf("RDX: 0x%X\n", ctx.Rdx)
+        printf("RSP: 0x%X\n", ctx.Rsp)
+        printf("RBP: 0x%X\n", ctx.Rbp)
+        printf("RIP: 0x%X\n", ctx.Rip)
         ##  Close HANDLEs
         discard CloseHandle(hThread)
         discard CloseHandle(pi.hProcess)
