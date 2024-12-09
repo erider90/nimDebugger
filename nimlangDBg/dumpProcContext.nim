@@ -1,17 +1,23 @@
+# nim c -d:mingw64 --cpu:amd64 --verbosity:0 .\dumpProcContext.nim
 import winINC
+import os
+
+var target*:LPCSTR
+
+if paramCount() > 0:
+  target = paramStr(1)
+else:
+  echo "Please provide a filename as an argument"
 
 const FALSE* = 0
 
 proc main(): void =
-    # var si: STARTUPINFO = [0]
-    # var si: STARTUPINFO 
     var si: winINC.STARTUPINFO
-    #var pi: PROCESS_INFORMATION
     var pi: winINC.PROCESS_INFORMATION
 
     ##  Create a new process
-    var check = createProcessA(nil, "C:/Users/super/Downloads/REtools/nimTools/a.exe", nil, nil, false, 0, nil, nil, si, pi)
-    ##  Get the first thread HANDLE
+    discard createProcessA(nil, target, nil, nil, false, 0, nil, nil, si, pi)
+    ##Get the first thread HANDLE
     var hThread: HANDLE = OpenThread(THREAD_ALL_ACCESS, FALSE, GetThreadId(pi.hThread))
     ##  Get the thread context
     var ctx: CONTEXT
@@ -19,7 +25,8 @@ proc main(): void =
     
     if GetThreadContext(hThread, addr(ctx)) == false :
         printf("Failed to get thread context\n")
-    else: 
+    else:
+        echo("[*] the process ", pi.hProcess)
         printf("RAX: 0x%X\n", ctx.Rax)
         printf("RBX: 0x%X\n", ctx.Rbx)
         printf("RCX: 0x%X\n", ctx.Rcx)
