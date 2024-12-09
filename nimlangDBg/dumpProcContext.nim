@@ -10,7 +10,7 @@ proc main(): void =
     var pi: winINC.PROCESS_INFORMATION
 
     ##  Create a new process
-    var check = createProcessA(nil, "C:/Users/super/Downloads/REtools/nimTools/a.exe", nil, nil, false, 0, nil, nil, si, pi)
+    var check = createProcessA(nil, "path to binary", nil, nil, false, 0, nil, nil, si, pi)
     ##  Get the first thread HANDLE
     var hThread: HANDLE = OpenThread(THREAD_ALL_ACCESS, FALSE, GetThreadId(pi.hThread))
     ##  Get the thread context
